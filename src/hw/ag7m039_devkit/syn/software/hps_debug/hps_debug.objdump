@@ -1,0 +1,259 @@
+
+hps_debug.elf:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <_start>:
+   0:	94000009 	bl	24 <ArmSetStackPointer>
+   4:	9400000f 	bl	40 <ArmCleanDataCache>
+   8:	94000064 	bl	198 <ArmDisableDataCache>
+   c:	94000017 	bl	68 <ArmInvalidateDataCache>
+  10:	9400007c 	bl	200 <ArmDisableInstructionCache>
+  14:	94000007 	bl	30 <ArmInvalidateInstructionCache>
+  18:	94000094 	bl	268 <ArmDisableMmu>
+  1c:	940000b0 	bl	2dc <InformMailbox>
+
+0000000000000020 <loop>:
+  20:	14000000 	b	20 <loop>
+
+0000000000000024 <ArmSetStackPointer>:
+  24:	58001820 	ldr	x0, 328 <NO_UACK+0xc>
+  28:	9100001f 	mov	sp, x0
+  2c:	d65f03c0 	ret
+
+0000000000000030 <ArmInvalidateInstructionCache>:
+  30:	d508751f 	ic	iallu
+  34:	d5033f9f 	dsb	sy
+  38:	d5033fdf 	isb
+  3c:	d65f03c0 	ret
+
+0000000000000040 <ArmCleanDataCache>:
+  40:	f81f0ffe 	str	x30, [sp, #-16]!
+  44:	94000013 	bl	90 <ArmDrainWriteBuffer>
+  48:	10000080 	adr	x0, 58 <ArmCleanDataCacheEntryBySetWay>
+  4c:	94000013 	bl	98 <AArch64DataCacheOperation>
+  50:	f84107fe 	ldr	x30, [sp], #16
+  54:	d65f03c0 	ret
+
+0000000000000058 <ArmCleanDataCacheEntryBySetWay>:
+  58:	d5087a40 	dc	csw, x0
+  5c:	d5033f9f 	dsb	sy
+  60:	d5033fdf 	isb
+  64:	d65f03c0 	ret
+
+0000000000000068 <ArmInvalidateDataCache>:
+  68:	f81f0ffe 	str	x30, [sp, #-16]!
+  6c:	94000009 	bl	90 <ArmDrainWriteBuffer>
+  70:	10000080 	adr	x0, 80 <ArmInvalidateDataCacheEntryBySetWay>
+  74:	94000009 	bl	98 <AArch64DataCacheOperation>
+  78:	f84107fe 	ldr	x30, [sp], #16
+  7c:	d65f03c0 	ret
+
+0000000000000080 <ArmInvalidateDataCacheEntryBySetWay>:
+  80:	d5087640 	dc	isw, x0
+  84:	d5033f9f 	dsb	sy
+  88:	d5033fdf 	isb
+  8c:	d65f03c0 	ret
+
+0000000000000090 <ArmDrainWriteBuffer>:
+  90:	d5033f9f 	dsb	sy
+  94:	d65f03c0 	ret
+
+0000000000000098 <AArch64DataCacheOperation>:
+  98:	f81f0ffe 	str	x30, [sp, #-16]!
+  9c:	aa0003f4 	mov	x20, x0
+  a0:	94000009 	bl	c4 <ArmGetInterruptState>
+  a4:	53001c13 	uxtb	w19, w0
+  a8:	9400000d 	bl	dc <ArmDisableInterrupts>
+  ac:	aa1403e0 	mov	x0, x20
+  b0:	94000011 	bl	f4 <AArch64AllDataCachesOperation>
+  b4:	97fffff7 	bl	90 <ArmDrainWriteBuffer>
+  b8:	35000193 	cbnz	w19, e8 <ArmEnableInterrupts>
+  bc:	f84107fe 	ldr	x30, [sp], #16
+  c0:	d65f03c0 	ret
+
+00000000000000c4 <ArmGetInterruptState>:
+  c4:	d53b4220 	mrs	x0, daif
+  c8:	721f001f 	tst	w0, #0x2
+  cc:	52800000 	mov	w0, #0x0                   	// #0
+  d0:	52800021 	mov	w1, #0x1                   	// #1
+  d4:	1a801020 	csel	w0, w1, w0, ne  // ne = any
+  d8:	d65f03c0 	ret
+
+00000000000000dc <ArmDisableInterrupts>:
+  dc:	d50343df 	msr	daifset, #0x3
+  e0:	d5033fdf 	isb
+  e4:	d65f03c0 	ret
+
+00000000000000e8 <ArmEnableInterrupts>:
+  e8:	d50343ff 	msr	daifclr, #0x3
+  ec:	d5033fdf 	isb
+  f0:	d65f03c0 	ret
+
+00000000000000f4 <AArch64AllDataCachesOperation>:
+  f4:	f81f0ffe 	str	x30, [sp, #-16]!
+  f8:	aa0003e1 	mov	x1, x0
+  fc:	d5390026 	mrs	x6, clidr_el1
+ 100:	926808c3 	and	x3, x6, #0x7000000
+ 104:	d357fc63 	lsr	x3, x3, #23
+ 108:	b4000403 	cbz	x3, 188 <L_Finished>
+ 10c:	d280000a 	mov	x10, #0x0                   	// #0
+
+0000000000000110 <Loop1>:
+ 110:	8b4a0542 	add	x2, x10, x10, lsr #1
+ 114:	9ac224cc 	lsr	x12, x6, x2
+ 118:	9240098c 	and	x12, x12, #0x7
+ 11c:	f100099f 	cmp	x12, #0x2
+ 120:	540002eb 	b.lt	17c <L_Skip>  // b.tstop
+ 124:	d51a000a 	msr	csselr_el1, x10
+ 128:	d5033fdf 	isb
+ 12c:	d539000c 	mrs	x12, ccsidr_el1
+ 130:	92400982 	and	x2, x12, #0x7
+ 134:	91001042 	add	x2, x2, #0x4
+ 138:	d2808004 	mov	x4, #0x400                 	// #1024
+ 13c:	d1000484 	sub	x4, x4, #0x1
+ 140:	8a4c0c84 	and	x4, x4, x12, lsr #3
+ 144:	5ac01085 	clz	w5, w4
+ 148:	d2900007 	mov	x7, #0x8000                	// #32768
+ 14c:	d10004e7 	sub	x7, x7, #0x1
+ 150:	8a4c34e7 	and	x7, x7, x12, lsr #13
+
+0000000000000154 <Loop2>:
+ 154:	aa0403e9 	mov	x9, x4
+
+0000000000000158 <Loop3>:
+ 158:	9ac5212b 	lsl	x11, x9, x5
+ 15c:	aa0b0140 	orr	x0, x10, x11
+ 160:	9ac220eb 	lsl	x11, x7, x2
+ 164:	aa0b0000 	orr	x0, x0, x11
+ 168:	d63f0020 	blr	x1
+ 16c:	f1000529 	subs	x9, x9, #0x1
+ 170:	54ffff4a 	b.ge	158 <Loop3>  // b.tcont
+ 174:	f10004e7 	subs	x7, x7, #0x1
+ 178:	54fffeea 	b.ge	154 <Loop2>  // b.tcont
+
+000000000000017c <L_Skip>:
+ 17c:	9100094a 	add	x10, x10, #0x2
+ 180:	eb0a007f 	cmp	x3, x10
+ 184:	54fffc6c 	b.gt	110 <Loop1>
+
+0000000000000188 <L_Finished>:
+ 188:	d5033f9f 	dsb	sy
+ 18c:	d5033fdf 	isb
+ 190:	f84107fe 	ldr	x30, [sp], #16
+ 194:	d65f03c0 	ret
+
+0000000000000198 <ArmDisableDataCache>:
+ 198:	f81f0ffe 	str	x30, [sp, #-16]!
+ 19c:	d5384241 	mrs	x1, currentel
+ 1a0:	f100303f 	cmp	x1, #0xc
+ 1a4:	540000e0 	b.eq	1c0 <ArmDisableDataCache+0x28>  // b.none
+ 1a8:	f100203f 	cmp	x1, #0x8
+ 1ac:	54000060 	b.eq	1b8 <ArmDisableDataCache+0x20>  // b.none
+ 1b0:	d5381000 	mrs	x0, sctlr_el1
+ 1b4:	14000004 	b	1c4 <ArmDisableDataCache+0x2c>
+ 1b8:	d53c1000 	mrs	x0, sctlr_el2
+ 1bc:	14000002 	b	1c4 <ArmDisableDataCache+0x2c>
+ 1c0:	d53e1000 	mrs	x0, sctlr_el3
+ 1c4:	927df800 	and	x0, x0, #0xfffffffffffffffb
+ 1c8:	d5384241 	mrs	x1, currentel
+ 1cc:	f100303f 	cmp	x1, #0xc
+ 1d0:	540000e0 	b.eq	1ec <ArmDisableDataCache+0x54>  // b.none
+ 1d4:	f100203f 	cmp	x1, #0x8
+ 1d8:	54000060 	b.eq	1e4 <ArmDisableDataCache+0x4c>  // b.none
+ 1dc:	d5181000 	msr	sctlr_el1, x0
+ 1e0:	14000004 	b	1f0 <ArmDisableDataCache+0x58>
+ 1e4:	d51c1000 	msr	sctlr_el2, x0
+ 1e8:	14000002 	b	1f0 <ArmDisableDataCache+0x58>
+ 1ec:	d51e1000 	msr	sctlr_el3, x0
+ 1f0:	d5033f9f 	dsb	sy
+ 1f4:	d5033fdf 	isb
+ 1f8:	f84107fe 	ldr	x30, [sp], #16
+ 1fc:	d65f03c0 	ret
+
+0000000000000200 <ArmDisableInstructionCache>:
+ 200:	f81f0ffe 	str	x30, [sp, #-16]!
+ 204:	d5384241 	mrs	x1, currentel
+ 208:	f100303f 	cmp	x1, #0xc
+ 20c:	540000e0 	b.eq	228 <ArmDisableInstructionCache+0x28>  // b.none
+ 210:	f100203f 	cmp	x1, #0x8
+ 214:	54000060 	b.eq	220 <ArmDisableInstructionCache+0x20>  // b.none
+ 218:	d5381000 	mrs	x0, sctlr_el1
+ 21c:	14000004 	b	22c <ArmDisableInstructionCache+0x2c>
+ 220:	d53c1000 	mrs	x0, sctlr_el2
+ 224:	14000002 	b	22c <ArmDisableInstructionCache+0x2c>
+ 228:	d53e1000 	mrs	x0, sctlr_el3
+ 22c:	9273f800 	and	x0, x0, #0xffffffffffffefff
+ 230:	d5384241 	mrs	x1, currentel
+ 234:	f100303f 	cmp	x1, #0xc
+ 238:	540000e0 	b.eq	254 <ArmDisableInstructionCache+0x54>  // b.none
+ 23c:	f100203f 	cmp	x1, #0x8
+ 240:	54000060 	b.eq	24c <ArmDisableInstructionCache+0x4c>  // b.none
+ 244:	d5181000 	msr	sctlr_el1, x0
+ 248:	14000004 	b	258 <ArmDisableInstructionCache+0x58>
+ 24c:	d51c1000 	msr	sctlr_el2, x0
+ 250:	14000002 	b	258 <ArmDisableInstructionCache+0x58>
+ 254:	d51e1000 	msr	sctlr_el3, x0
+ 258:	d5033f9f 	dsb	sy
+ 25c:	d5033fdf 	isb
+ 260:	f84107fe 	ldr	x30, [sp], #16
+ 264:	d65f03c0 	ret
+
+0000000000000268 <ArmDisableMmu>:
+ 268:	f81f0ffe 	str	x30, [sp, #-16]!
+ 26c:	d5384241 	mrs	x1, currentel
+ 270:	f100303f 	cmp	x1, #0xc
+ 274:	540000e0 	b.eq	290 <ArmDisableMmu+0x28>  // b.none
+ 278:	f100203f 	cmp	x1, #0x8
+ 27c:	54000060 	b.eq	288 <ArmDisableMmu+0x20>  // b.none
+ 280:	d5381000 	mrs	x0, sctlr_el1
+ 284:	14000004 	b	294 <ArmDisableMmu+0x2c>
+ 288:	d53c1000 	mrs	x0, sctlr_el2
+ 28c:	14000002 	b	294 <ArmDisableMmu+0x2c>
+ 290:	d53e1000 	mrs	x0, sctlr_el3
+ 294:	927ff800 	and	x0, x0, #0xfffffffffffffffe
+ 298:	d5384241 	mrs	x1, currentel
+ 29c:	f100303f 	cmp	x1, #0xc
+ 2a0:	54000120 	b.eq	2c4 <ArmDisableMmu+0x5c>  // b.none
+ 2a4:	f100203f 	cmp	x1, #0x8
+ 2a8:	54000080 	b.eq	2b8 <ArmDisableMmu+0x50>  // b.none
+ 2ac:	d5181000 	msr	sctlr_el1, x0
+ 2b0:	d508871f 	tlbi	vmalle1
+ 2b4:	14000006 	b	2cc <ArmDisableMmu+0x64>
+ 2b8:	d51c1000 	msr	sctlr_el2, x0
+ 2bc:	d50c871f 	tlbi	alle2
+ 2c0:	14000003 	b	2cc <ArmDisableMmu+0x64>
+ 2c4:	d51e1000 	msr	sctlr_el3, x0
+ 2c8:	d50e871f 	tlbi	alle3
+ 2cc:	d5033f9f 	dsb	sy
+ 2d0:	d5033fdf 	isb
+ 2d4:	f84107fe 	ldr	x30, [sp], #16
+ 2d8:	d65f03c0 	ret
+
+00000000000002dc <InformMailbox>:
+ 2dc:	580002a6 	ldr	x6, 330 <NO_UACK+0x14>
+ 2e0:	52800021 	mov	w1, #0x1                   	// #1
+ 2e4:	321f0021 	orr	w1, w1, #0x2
+ 2e8:	b9000cc1 	str	w1, [x6, #12]
+ 2ec:	b9402cc4 	ldr	w4, [x6, #44]
+ 2f0:	180001a1 	ldr	w1, 324 <NO_UACK+0x8>
+ 2f4:	b90008c1 	str	w1, [x6, #8]
+ 2f8:	52800021 	mov	w1, #0x1                   	// #1
+ 2fc:	b90400c1 	str	w1, [x6, #1024]
+ 300:	b9402cc5 	ldr	w5, [x6, #44]
+ 304:	12180084 	and	w4, w4, #0x100
+ 308:	121800a5 	and	w5, w5, #0x100
+ 30c:	6b0400bf 	cmp	w5, w4
+ 310:	54000060 	b.eq	31c <NO_UACK>  // b.none
+ 314:	52800001 	mov	w1, #0x0                   	// #0
+ 318:	d65f03c0 	ret
+
+000000000000031c <NO_UACK>:
+ 31c:	12800001 	mov	w1, #0xffffffff            	// #-1
+ 320:	d65f03c0 	ret
+ 324:	11000048 	.word	0x11000048
+ 328:	ffe10000 	.word	0xffe10000
+ 32c:	00000000 	.word	0x00000000
+ 330:	ffa30000 	.word	0xffa30000
+ 334:	00000000 	.word	0x00000000

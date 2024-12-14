@@ -1,0 +1,76 @@
+From 20cffd078f4f595077c6738017d2d785dd644954 Mon Sep 17 00:00:00 2001
+From: Peter Colberg <peter.colberg@intel.com>
+Date: Fri, 22 Nov 2024 18:23:53 -0500
+Subject: [PATCH] PCI: altera: set maximum supported TLP data payload size for
+ Agilex 7
+
+The Max Payload Size (MPS) in the Device Control register of the PCIe
+root port defaults to 128 bytes. Increase the payload size to the Max
+Payload Size Supported (MPSS) from the Device Capabilities register,
+e.g., 256 bytes to reduce transaction overhead and increase bandwidth.
+
+The PCIe subsystem negotiates the MPS of root port and endpoint based
+on the MPS stored in the Device Control register of the root port. If
+the MPS of the endpoint differs from that of the root port, the MPS
+of the endpoint is changed to match that of the root port. In all
+cases, the negotiated MPS is limited by the maximum of the MPSS
+from the Device Capabilities registers of root port and end point.
+
+Signed-off-by: Peter Colberg <peter.colberg@intel.com>
+---
+ drivers/pci/controller/pcie-altera.c | 32 ++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
+index 7f1d5a92b161..88e2a28d2ad1 100644
+--- a/drivers/pci/controller/pcie-altera.c
++++ b/drivers/pci/controller/pcie-altera.c
+@@ -777,6 +777,37 @@ static void altera_pcie_retrain(struct altera_pcie *pcie)
+ 	}
+ }
+ 
++/**
++ * Set TLP data payload size of PCIe root port to maximum size supported.
++ *
++ * The Max Payload Size (MPS) in the Device Control register of the PCIe
++ * root port defaults to 128 bytes. Increase the payload size to the Max
++ * Payload Size Supported (MPSS) from the Device Capabilities register,
++ * e.g., 256 bytes to reduce transaction overhead and increase bandwidth.
++ *
++ * The PCIe subsystem negotiates the MPS of root port and endpoint based
++ * on the MPS stored in the Device Control register of the root port. If
++ * the MPS of the endpoint differs from that of the root port, the MPS
++ * of the endpoint is changed to match that of the root port. In all
++ * cases, the negotiated MPS is limited by the maximum of the MPSS
++ * from the Device Capabilities registers of root port and end point.
++ */
++static void altera_pcie_set_mps_to_mpss(struct altera_pcie *pcie)
++{
++	u16 devcap, devctl;
++
++	altera_read_cap_word(pcie, pcie->root_bus_nr, RP_DEVFN, PCI_EXP_DEVCAP,
++			     &devcap);
++	altera_read_cap_word(pcie, pcie->root_bus_nr, RP_DEVFN, PCI_EXP_DEVCTL,
++			     &devctl);
++
++	devctl ^= (devctl & PCI_EXP_DEVCTL_PAYLOAD);
++	devctl |= (devcap & PCI_EXP_DEVCAP_PAYLOAD) << 5;
++
++	altera_write_cap_word(pcie, pcie->root_bus_nr, RP_DEVFN, PCI_EXP_DEVCTL,
++			      devctl);
++}
++
+ static int altera_pcie_intx_map(struct irq_domain *domain, unsigned int irq,
+ 				irq_hw_number_t hwirq)
+ {
+@@ -1024,6 +1055,7 @@ static int altera_pcie_probe(struct platform_device *pdev)
+ 		writel(CFG_AER,
+ 		       pcie->hip_base + pcie->pcie_data->port_conf_offset +
+ 		       pcie->pcie_data->port_irq_enable_offset);
++		altera_pcie_set_mps_to_mpss(pcie);
+ 	}
+ 
+ 	bridge->sysdata = pcie;
+-- 
+2.47.0
+
