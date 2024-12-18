@@ -7,7 +7,7 @@ LICENSE = "MIT & GPL-2.0-only"
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI:agilex7_dk_dev_agm039fes = "\
-		${@bb.utils.contains("IMAGE_TYPE", "rped", "https://github.com/altera-fpga/agilex7-ed-pcie-rp/releases/download/24.3-rc1/agilex7_dk_dev_agm039fes_rped_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_rped_core", "", d)} \
+		${@bb.utils.contains("IMAGE_TYPE", "rped", "https://github.com/altera-fpga/agilex7-ed-pcie-rp/releases/download/24.3-1/agilex7_dk_dev_agm039fes_rped_${ARM64_GHRD_CORE_RBF};name=agilex7_dk_dev_agm039fes_rped_core", "", d)} \
 		"
 
 SRC_URI[agilex7_dk_dev_agm039fes_rped_core.sha256sum] = "7fc93b1f0226e3aad86d7233a8de6921c4603879ecd3a1256c0d3437bcbcdb45"
