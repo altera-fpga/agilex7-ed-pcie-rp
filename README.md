@@ -2,6 +2,8 @@
 
 This system example design demonstrates a PCIe root port running on the [Intel® Agilex™ 7 M-Series Development Kit](https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/agm039.html) connected to a Non-Volatile Memory express (NVMe) endpoint. The PCIe root port is capable of Gen5x4 speeds. The design is intended to serve as a reference to customers on how to implement and run a performant root port system using the Intel® Agilex™ 7 SoC and relevant IP.
 
+For more information, refer to the [PCIe Root Port User Guide](https://altera-fpga.github.io/rel-24.3/embedded-designs/agilex-7/m-series/pcie_rp/ug-pcie_rp-agx7m-hbm2e/).
+
 ## Description
 
 The PCIe root port example design is based on the Intel® Agilex™ 7 Golden System Reference Design (GSRD) with the following components added:
