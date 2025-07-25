@@ -481,7 +481,7 @@ clean:
 
 ################################################
 # Checking for the existence of intel custom ip
-INTEL_CUSTOM_IP_DIR = ../../src/rtile_4x4/intel_custom_ip
+INTEL_CUSTOM_IP_DIR = ../src/intel_custom_ip
 INTEL_CUSTOM_IP_DIR_TARGET = $(INTEL_CUSTOM_IP_DIR)-$(wildcard $(INTEL_CUSTOM_IP_DIR))
 INTEL_CUSTOM_IP_DIR_PRESENT = $(INTEL_CUSTOM_IP_DIR)-$(INTEL_CUSTOM_IP_DIR)
 INTEL_CUSTOM_IP_DIR_ABSENT = $(INTEL_CUSTOM_IP_DIR)-
