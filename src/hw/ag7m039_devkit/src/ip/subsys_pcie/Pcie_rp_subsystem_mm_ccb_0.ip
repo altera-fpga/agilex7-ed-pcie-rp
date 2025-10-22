@@ -16,14 +16,14 @@ https://fpgasoftware.intel.com/eula.-->
   <ipxact:vendor>Intel Corporation</ipxact:vendor>
   <ipxact:library>Pcie_rp_subsystem_mm_ccb_0</ipxact:library>
   <ipxact:name>mm_ccb_0</ipxact:name>
-  <ipxact:version>19.2.1</ipxact:version>
+  <ipxact:version>19.3.0</ipxact:version>
   <ipxact:busInterfaces>
     <ipxact:busInterface>
       <ipxact:name>m0_clk</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -57,10 +57,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>m0_reset</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="reset" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="reset" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -89,10 +89,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>s0_clk</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -126,10 +126,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>s0_reset</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="reset" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="reset" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -158,10 +158,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>s0</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -539,10 +539,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>m0</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -807,6 +807,11 @@ https://fpgasoftware.intel.com/eula.-->
         <ipxact:parameter parameterId="enableConcurrentSubordinateAccess" type="longint">
           <ipxact:name>enableConcurrentSubordinateAccess</ipxact:name>
           <ipxact:displayName>enableConcurrentSubordinateAccess</ipxact:displayName>
+          <ipxact:value>0</ipxact:value>
+        </ipxact:parameter>
+        <ipxact:parameter parameterId="optimizedReadsWithBE" type="longint">
+          <ipxact:name>optimizedReadsWithBE</ipxact:name>
+          <ipxact:displayName>optimizedReadsWithBE</ipxact:displayName>
           <ipxact:value>0</ipxact:value>
         </ipxact:parameter>
       </ipxact:parameters>
@@ -1200,7 +1205,7 @@ https://fpgasoftware.intel.com/eula.-->
       <ipxact:vendor>Intel Corporation</ipxact:vendor>
       <ipxact:library>Pcie_rp_subsystem_mm_ccb_0</ipxact:library>
       <ipxact:name>mm_ccb</ipxact:name>
-      <ipxact:version>19.2.1</ipxact:version>
+      <ipxact:version>19.3.0</ipxact:version>
     </altera:entity_info>
     <altera:altera_module_parameters>
       <ipxact:parameters>
@@ -1258,6 +1263,11 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:name>SLAVE_SYNC_DEPTH</ipxact:name>
           <ipxact:displayName>Slave clock domain synchronizer depth</ipxact:displayName>
           <ipxact:value>2</ipxact:value>
+        </ipxact:parameter>
+        <ipxact:parameter parameterId="ENABLE_RESPONSE" type="int">
+          <ipxact:name>ENABLE_RESPONSE</ipxact:name>
+          <ipxact:displayName>Enable Read/Write response port</ipxact:displayName>
+          <ipxact:value>0</ipxact:value>
         </ipxact:parameter>
         <ipxact:parameter parameterId="SYNC_RESET" type="int">
           <ipxact:name>SYNC_RESET</ipxact:name>
@@ -2027,6 +2037,10 @@ https://fpgasoftware.intel.com/eula.-->
                     &lt;/entry&gt;
                     &lt;entry&gt;
                         &lt;key&gt;enableConcurrentSubordinateAccess&lt;/key&gt;
+                        &lt;value&gt;0&lt;/value&gt;
+                    &lt;/entry&gt;
+                    &lt;entry&gt;
+                        &lt;key&gt;optimizedReadsWithBE&lt;/key&gt;
                         &lt;value&gt;0&lt;/value&gt;
                     &lt;/entry&gt;
                 &lt;/parameterValueMap&gt;

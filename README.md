@@ -1,9 +1,6 @@
 # Intel® Agilex™ 7 PCIe Root Port System Example Design
 
-This system example design demonstrates a PCIe root port running on the [Intel® Agilex™ 7 M-Series Development Kit](https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/agm039.html) connected to a Non-Volatile Memory express (NVMe) endpoint. The PCIe root port is capable of Gen5x4 speeds. The design is intended to serve as a reference to customers on how to implement and run a performant root port system using the Intel® Agilex™ 7 SoC and relevant IP.
-
-For more information, refer to the [PCIe Root Port User Guide](https://altera-fpga.github.io/rel-24.3/embedded-designs/agilex-7/m-series/pcie_rp/ug-pcie_rp-agx7m-hbm2e/).
-
+This system example design demonstrates a PCIe root port.
 ## Description
 
 The PCIe root port example design is based on the Intel® Agilex™ 7 Golden System Reference Design (GSRD) with the following components added:
@@ -31,19 +28,28 @@ Directory Structure used in this example design:
     |--- doc
     |--- src
     |   |--- hw
+	|   |  |--- ag7f014_devkit (Ptile-4x4)
+	|   |  |--- ag7i027_devkit (Ftile-2x4)
+	|   |  |--- ag7m039_devkit (Rtile-4x4)
+	
     |   |--- sw
+        |   |  |--- agilex7_dk_si_agf014eb-gsrd-build.sh   (Ptile-4x4)
+        |   |  |--- agilex7_dk_si_agi027fc-gsrd-build.sh   (Ftile-2x4)
+        |   |  |--- agilex7_dk_dev_agm039fes-rped-build.sh (Rtile-4x4)
  ```
 
 ## Project Details
 
 - **Family**: Intel® Agilex™ 7
-- **Quartus Version**: 24.3
-- **Development Kit**: [Intel® Agilex™ 7 FPGA M-Series Development Kit - HBM2e Edition (3x F-Tile & 1x R-Tile)](https://www.intel.com/content/www/us/en/products/details/fpga/development-kits/agilex/agm039.html)
-- **Device Part**: AGMF039R47A1E2VR0
+- **Quartus Version**: 25.1.1
+
 
 ## Getting Started
 
 Follow the steps below to build the design:
 
-- [Building the hardware](src/hw/README.md)
-- [Building the software](src/sw/README.md)
+- [Building the P-Tile hardware](src/hw/ag7f014_devkit/README.md)
+- [Building the F-Tile hardware](src/hw/ag7i027_devkit/README.md)
+- [Building the R-Tile hardware](src/hw/ag7m039_devkit/README.md)
+
+- [Building the P-Tile F-Tile R-Tile software](src/sw/README.md)

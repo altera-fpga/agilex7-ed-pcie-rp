@@ -13,17 +13,17 @@ Intel and sold by Intel or its authorized distributors.  Please
 refer to the applicable agreement for further details, at
 https://fpgasoftware.intel.com/eula.-->
 <ipxact:component xmlns:altera="http://www.altera.com/XMLSchema/IPXact2014/extensions" xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014">
-  <ipxact:vendor>Intel Corporation</ipxact:vendor>
+  <ipxact:vendor>Altera</ipxact:vendor>
   <ipxact:library>intel_cache_coherency_translator_0</ipxact:library>
   <ipxact:name>intel_cache_coherency_translator_inst</ipxact:name>
-  <ipxact:version>1.0.3</ipxact:version>
+  <ipxact:version>2.0.0</ipxact:version>
   <ipxact:busInterfaces>
     <ipxact:busInterface>
       <ipxact:name>clock</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -57,10 +57,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>reset</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="reset" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="reset" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -89,10 +89,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>csr_clock</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -126,10 +126,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>csr_reset</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="reset" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="reset" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -158,10 +158,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>csr</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="avalon" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -499,10 +499,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>m0</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="acelite" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="acelite" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="acelite" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="acelite" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -904,6 +904,11 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:displayName>traceSignals</ipxact:displayName>
           <ipxact:value>false</ipxact:value>
         </ipxact:parameter>
+        <ipxact:parameter parameterId="isTranslator" type="bit">
+          <ipxact:name>isTranslator</ipxact:name>
+          <ipxact:displayName>isTranslator</ipxact:displayName>
+          <ipxact:value>false</ipxact:value>
+        </ipxact:parameter>
         <ipxact:parameter parameterId="maximumOutstandingReads" type="longint">
           <ipxact:name>maximumOutstandingReads</ipxact:name>
           <ipxact:displayName>maximumOutstandingReads</ipxact:displayName>
@@ -983,10 +988,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>s0</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="axi4" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="axi4" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="axi4" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="axi4" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -1306,6 +1311,11 @@ https://fpgasoftware.intel.com/eula.-->
         <ipxact:parameter parameterId="traceSignals" type="bit">
           <ipxact:name>traceSignals</ipxact:name>
           <ipxact:displayName>traceSignals</ipxact:displayName>
+          <ipxact:value>false</ipxact:value>
+        </ipxact:parameter>
+        <ipxact:parameter parameterId="isTranslator" type="bit">
+          <ipxact:name>isTranslator</ipxact:name>
+          <ipxact:displayName>isTranslator</ipxact:displayName>
           <ipxact:value>false</ipxact:value>
         </ipxact:parameter>
         <ipxact:parameter parameterId="maximumOutstandingReads" type="longint">
@@ -2876,10 +2886,10 @@ https://fpgasoftware.intel.com/eula.-->
   </ipxact:model>
   <ipxact:vendorExtensions>
     <altera:entity_info>
-      <ipxact:vendor>Intel Corporation</ipxact:vendor>
+      <ipxact:vendor>Altera</ipxact:vendor>
       <ipxact:library>intel_cache_coherency_translator_0</ipxact:library>
       <ipxact:name>intel_cache_coherency_translator</ipxact:name>
-      <ipxact:version>1.0.3</ipxact:version>
+      <ipxact:version>2.0.0</ipxact:version>
     </altera:entity_info>
     <altera:altera_module_parameters>
       <ipxact:parameters>
@@ -3908,6 +3918,10 @@ https://fpgasoftware.intel.com/eula.-->
                         &lt;value&gt;false&lt;/value&gt;
                     &lt;/entry&gt;
                     &lt;entry&gt;
+                        &lt;key&gt;isTranslator&lt;/key&gt;
+                        &lt;value&gt;false&lt;/value&gt;
+                    &lt;/entry&gt;
+                    &lt;entry&gt;
                         &lt;key&gt;maximumOutstandingReads&lt;/key&gt;
                         &lt;value&gt;1&lt;/value&gt;
                     &lt;/entry&gt;
@@ -4322,6 +4336,10 @@ https://fpgasoftware.intel.com/eula.-->
                     &lt;/entry&gt;
                     &lt;entry&gt;
                         &lt;key&gt;traceSignals&lt;/key&gt;
+                        &lt;value&gt;false&lt;/value&gt;
+                    &lt;/entry&gt;
+                    &lt;entry&gt;
+                        &lt;key&gt;isTranslator&lt;/key&gt;
                         &lt;value&gt;false&lt;/value&gt;
                     &lt;/entry&gt;
                     &lt;entry&gt;

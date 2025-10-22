@@ -1,0 +1,20 @@
+# ######################################################################## 
+# Copyright (C) 2025 Altera Corporation.
+# SPDX-License-Identifier: MIT
+# ######################################################################## 
+
+
+
+
+# Quartus Prime
+# Version 23.3.0 Build 104 09/20/2023 SC Pro Edition
+# Date created = 22:59:55  November 14, 2023
+#
+# -------------------------------------------------------------------------- #
+
+QUARTUS_VERSION = "23.3"
+DATE = "22:59:55  November 14, 2023"
+
+# Revisions
+
+PROJECT_REVISION = "ghrd_agfb014r24b2e2v"

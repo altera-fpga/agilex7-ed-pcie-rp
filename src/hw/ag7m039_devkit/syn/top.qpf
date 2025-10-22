@@ -1,0 +1,11 @@
+# ######################################################################## 
+# Copyright (C) 2025 Altera Corporation.
+# SPDX-License-Identifier: MIT
+# ######################################################################## 
+
+QUARTUS_VERSION = "24.3"
+DATE = "02:07:35  September 06, 2024"
+
+# Revisions
+
+PROJECT_REVISION = "ghrd_agmf039r47a1e2vr0"

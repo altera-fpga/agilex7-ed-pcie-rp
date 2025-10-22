@@ -13,17 +13,17 @@ Intel and sold by Intel or its authorized distributors.  Please
 refer to the applicable agreement for further details, at
 https://fpgasoftware.intel.com/eula.-->
 <ipxact:component xmlns:altera="http://www.altera.com/XMLSchema/IPXact2014/extensions" xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014">
-  <ipxact:vendor>Intel Corporation</ipxact:vendor>
+  <ipxact:vendor>Altera</ipxact:vendor>
   <ipxact:library>qsys_top_iopll_0</ipxact:library>
   <ipxact:name>iopll_0</ipxact:name>
   <ipxact:version>20.0.0</ipxact:version>
   <ipxact:busInterfaces>
     <ipxact:busInterface>
       <ipxact:name>refclk</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -67,10 +67,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>locked</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="conduit" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="conduit" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="conduit" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="conduit" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -114,10 +114,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>reset</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="reset" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="reset" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="reset" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -156,10 +156,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>outclk0</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -213,10 +213,10 @@ https://fpgasoftware.intel.com/eula.-->
     </ipxact:busInterface>
     <ipxact:busInterface>
       <ipxact:name>outclk1</ipxact:name>
-      <ipxact:busType vendor="intel" library="intel" name="clock" version="24.3"></ipxact:busType>
+      <ipxact:busType vendor="intel" library="intel" name="clock" version="25.1"></ipxact:busType>
       <ipxact:abstractionTypes>
         <ipxact:abstractionType>
-          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="24.3"></ipxact:abstractionRef>
+          <ipxact:abstractionRef vendor="intel" library="intel" name="clock" version="25.1"></ipxact:abstractionRef>
           <ipxact:portMaps>
             <ipxact:portMap>
               <ipxact:logicalPort>
@@ -357,7 +357,7 @@ https://fpgasoftware.intel.com/eula.-->
   </ipxact:model>
   <ipxact:vendorExtensions>
     <altera:entity_info>
-      <ipxact:vendor>Intel Corporation</ipxact:vendor>
+      <ipxact:vendor>Altera</ipxact:vendor>
       <ipxact:library>qsys_top_iopll_0</ipxact:library>
       <ipxact:name>altera_iopll</ipxact:name>
       <ipxact:version>20.0.0</ipxact:version>
@@ -499,11 +499,6 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:displayName>Component</ipxact:displayName>
           <ipxact:value>AGMF039R47A1E2VR0</ipxact:value>
         </ipxact:parameter>
-        <ipxact:parameter parameterId="system_info_device_speed_grade" type="string">
-          <ipxact:name>system_info_device_speed_grade</ipxact:name>
-          <ipxact:displayName>Speed Grade</ipxact:displayName>
-          <ipxact:value>2</ipxact:value>
-        </ipxact:parameter>
         <ipxact:parameter parameterId="system_info_device_iobank_rev" type="string">
           <ipxact:name>system_info_device_iobank_rev</ipxact:name>
           <ipxact:displayName>IO Bank Revision</ipxact:displayName>
@@ -518,6 +513,11 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:name>system_part_trait_iobank_rev</ipxact:name>
           <ipxact:displayName>IO Bank Revision Trait</ipxact:displayName>
           <ipxact:value>IO96B</ipxact:value>
+        </ipxact:parameter>
+        <ipxact:parameter parameterId="system_info_device_speed_grade" type="string">
+          <ipxact:name>system_info_device_speed_grade</ipxact:name>
+          <ipxact:displayName>Speed Grade</ipxact:displayName>
+          <ipxact:value>2</ipxact:value>
         </ipxact:parameter>
         <ipxact:parameter parameterId="gui_usr_device_speed_grade" type="string">
           <ipxact:name>gui_usr_device_speed_grade</ipxact:name>
@@ -609,6 +609,11 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:displayName>Enable physical output clock parameters</ipxact:displayName>
           <ipxact:value>false</ipxact:value>
         </ipxact:parameter>
+        <ipxact:parameter parameterId="gui_use_fractional_division" type="bit">
+          <ipxact:name>gui_use_fractional_division</ipxact:name>
+          <ipxact:displayName>Enable fractional division</ipxact:displayName>
+          <ipxact:value>false</ipxact:value>
+        </ipxact:parameter>
         <ipxact:parameter parameterId="gui_pll_bandwidth_preset" type="string">
           <ipxact:name>gui_pll_bandwidth_preset</ipxact:name>
           <ipxact:displayName>PLL Bandwidth Preset</ipxact:displayName>
@@ -688,6 +693,11 @@ https://fpgasoftware.intel.com/eula.-->
           <ipxact:name>gui_multiply_factor</ipxact:name>
           <ipxact:displayName>Multiply Factor (M-Counter)</ipxact:displayName>
           <ipxact:value>6</ipxact:value>
+        </ipxact:parameter>
+        <ipxact:parameter parameterId="gui_multiply_fraction" type="int">
+          <ipxact:name>gui_multiply_fraction</ipxact:name>
+          <ipxact:displayName>Multiply Factor (Fraction)</ipxact:displayName>
+          <ipxact:value>0</ipxact:value>
         </ipxact:parameter>
         <ipxact:parameter parameterId="gui_divide_factor_n" type="int">
           <ipxact:name>gui_divide_factor_n</ipxact:name>
