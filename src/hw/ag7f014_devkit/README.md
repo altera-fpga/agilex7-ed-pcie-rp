@@ -19,12 +19,11 @@ This directory contains the Quartus Project for the Intel® Agilex™ 7 PCIe Roo
 
 # Programming Files Generation Steps
 
- 1. Download [`u-boot-spl-dtb.hex`](https://releases.rocketboards.org/2025.08/gsrd/agilex7_dk_dev_agm039fes_gsrd/u-boot-spl-dtb.hex) from the GSRD 2025.01 release.
+ 1. File link of  [`u-boot-spl-dtb.hex`](https://github.com/altera-fpga/agilex7-ed-pcie-rp/tree/main/src/sw/artifacts/ag7f014_devkit/u-boot-spl-dtb.hex) from the GSRD 2025.01 release.
 
  2. Generate `top.{core,hps}.rbf` including U-Boot SPL:
 
     ```
     cd syn/
-    quartus_pfg -c -o hps=on -o hps_path=u-boot-spl-dtb.hex output_files/top.sof output_files/top.rbf
+    quartus_pfg -c -o hps=on -o hps_path=../../sw/artifacts/ag7f014_devkit/u-boot-spl-dtb.hex output_files/top.sof output_files/top.rbf
     ```
-
