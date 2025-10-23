@@ -3059,7 +3059,7 @@ https://fpgasoftware.intel.com/eula.-->
         <ipxact:parameter parameterId="PIPELINE_0_START_ADDR_LSB" type="string">
           <ipxact:name>PIPELINE_0_START_ADDR_LSB</ipxact:name>
           <ipxact:displayName>PIPELINE_0_START_ADDR_LSB</ipxact:displayName>
-          <ipxact:value>2147483648</ipxact:value>
+          <ipxact:value>0</ipxact:value>
         </ipxact:parameter>
         <ipxact:parameter parameterId="PIPELINE_0_START_ADDR_MSB" type="string">
           <ipxact:name>PIPELINE_0_START_ADDR_MSB</ipxact:name>

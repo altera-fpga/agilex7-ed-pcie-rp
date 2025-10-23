@@ -5306,7 +5306,7 @@ https://fpgasoftware.intel.com/eula.-->
         &lt;parameterHdlWidth&gt;32&lt;/parameterHdlWidth&gt;
         &lt;parameterName&gt;PIPELINE_0_START_ADDR_LSB&lt;/parameterName&gt;
         &lt;parameterType&gt;java.math.BigInteger&lt;/parameterType&gt;
-        &lt;parameterValue&gt;2147483648&lt;/parameterValue&gt;
+        &lt;parameterValue&gt;0&lt;/parameterValue&gt;
     &lt;/hdlParameterDescriptorDefinition&gt;
     &lt;hdlParameterDescriptorDefinition&gt;
         &lt;description&gt;&lt;/description&gt;
