@@ -11,7 +11,7 @@
 # -------------------------------------------------------------------------- #
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 23.4.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "01:32:37  FEBRUARY 21, 2024"
-set_global_assignment -name LAST_QUARTUS_VERSION "25.1.1 Pro Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "26.1.0 Pro Edition"
 
 # Analysis & Synthesis Assignments
 # ================================
@@ -25,7 +25,6 @@ set_global_assignment -name TOP_LEVEL_ENTITY top
 
 # RTL Files
 # ================================
-set_global_assignment -name VERILOG_FILE ../src/top.v
 
 # IP SEARCH PATHS 
 # ================================
@@ -33,11 +32,9 @@ set_global_assignment -name IP_SEARCH_PATHS "../src/custom_rtl/**/*;../src/ip/su
 
 # IP File list
 # ======================
-set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ./ip_list.tcl
 
 # SDC File
 # ======================
-set_global_assignment -name SDC_FILE setup/ghrd_timing.sdc
 #set_global_assignment -name SDC_FILE setup/sgmii_timing.sdc
 
 # Compiler Assignments
@@ -527,3 +524,6 @@ set_global_assignment -name ENABLE_STATUS_BYTE OFF
 set_global_assignment -name BOARD default
 
 
+set_global_assignment -name VERILOG_FILE ../src/top.v
+set_global_assignment -name SOURCE_TCL_SCRIPT_FILE ./ip_list.tcl
+set_global_assignment -name SDC_FILE setup/ghrd_timing.sdc
