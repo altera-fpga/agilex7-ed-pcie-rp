@@ -1,12 +1,12 @@
 From 6e4081f1be93fc0afa91c6c0f02b4f269c24af3a Mon Sep 17 00:00:00 2001
-From: Mahesh Vaidya <mahesh.vaidya@altera.com>
+From: "Vaidya, Mahesh" <mahesh.vaidya@altera.com>
 Date: Tue, 4 Nov 2025 01:31:30 -0800
 Subject: [PATCH] DTS: Add node to support pcie legacy interrupts
 
 Add legacy-interrupt-controller node to support pcie legacy interrupt.
 
 Upstream-Status: Pending
-Signed-off-by: Mahesh Vaidya <mahesh.vaidya@altera.com>
+Signed-off-by: Vaidya, Mahesh <mahesh.vaidya@altera.com>
 ---
  .../dts/intel/socfpga_agilex_pcie_root_port.dtsi   | 14 +++++++++-----
  1 file changed, 9 insertions(+), 5 deletions(-)

@@ -29,19 +29,17 @@ Directory Structure used in this example design:
     |--- src
     |   |--- hw
 	|   |  |--- ag7f014_devkit (Ptile-4x4)
-	|   |  |--- ag7i027_devkit (Ftile-2x4)
 	|   |  |--- ag7m039_devkit (Rtile-4x4)
 	
     |   |--- sw
         |   |  |--- agilex7_dk_si_agf014eb-gsrd-build.sh   (Ptile-4x4)
-        |   |  |--- agilex7_dk_si_agi027fc-gsrd-build.sh   (Ftile-2x4)
         |   |  |--- agilex7_dk_dev_agm039fes-rped-build.sh (Rtile-4x4)
  ```
 
 ## Project Details
 
 - **Family**: Intel® Agilex™ 7
-- **Quartus Version**: 25.1.1
+- **Quartus Version**: 26.1
 
 
 ## Getting Started
@@ -49,7 +47,6 @@ Directory Structure used in this example design:
 Follow the steps below to build the design:
 
 - [Building the P-Tile hardware](src/hw/ag7f014_devkit/README.md)
-- [Building the F-Tile hardware](src/hw/ag7i027_devkit/README.md)
 - [Building the R-Tile hardware](src/hw/ag7m039_devkit/README.md)
 
 - [Building the P-Tile F-Tile R-Tile software](src/sw/README.md)

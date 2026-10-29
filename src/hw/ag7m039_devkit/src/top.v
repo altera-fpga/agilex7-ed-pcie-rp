@@ -298,7 +298,7 @@ qsys_top soc_inst (
 .pcie_serial_tx_p_out14                   (), 
 .pcie_serial_tx_p_out15                   (), 
                    
-.pcie_pin_perst_pin_perst                 (pcie_pin_perst_reset_n),
+.pcie_pin_perst_reset_n                   (pcie_pin_perst_reset_n),
 .clk_bdg_100_clk                          (clk_bdg_100_clk),
 .clk_bdg_250_clk                          (clk_bdg_250_clk),
 .iopll_locked_export                      (iopll_locked_export),

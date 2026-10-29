@@ -1,5 +1,5 @@
 From 8fa73d76c4034e005372132f5671536a010dee94 Mon Sep 17 00:00:00 2001
-From: Mahesh Vaidya <mahesh.vaidya@altera.com>
+From: "Vaidya, Mahesh R" <mahesh.r.vaidya@intel.com>
 Date: Fri, 29 Aug 2025 03:07:53 -0700
 Subject: [PATCH] Reserve RAM area required by pcie rootport on FPGA
 
@@ -8,7 +8,7 @@ by the rootport design to handle MSI dummy write requests sent by
 MSI ordering module.
 
 Upstream-Status: Pending
-Signed-off-by: Mahesh Vaidya <mahesh.vaidya@altera.com>
+Signed-off-by: Vaidya, Mahesh R <mahesh.r.vaidya@intel.com>
 ---
  arch/arm64/boot/dts/intel/socfpga_agilex.dtsi | 6 ++++++
  1 file changed, 6 insertions(+)
