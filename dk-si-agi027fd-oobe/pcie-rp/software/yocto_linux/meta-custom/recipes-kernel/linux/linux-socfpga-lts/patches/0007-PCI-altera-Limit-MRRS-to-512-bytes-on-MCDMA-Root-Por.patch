@@ -1,0 +1,113 @@
+From cec93dad6d633e496bb609426da56462285da31d Mon Sep 17 00:00:00 2001
+From: Mahesh Vaidya <mahesh.vaidya@altera.com>
+Date: Wed, 11 Nov 2026 13:16:51 -0800
+Subject: [PATCH] PCI: altera: Limit MRRS to 512 bytes on MCDMA Root Ports
+
+The MCDMA PCIe Root Port hard IP defines an operational restriction of a
+512 byte Max_Read_Request_Size (MCDMA HAS: MRRS_SUPPORTED = 512). Read
+requests larger than that are not handled correctly by the Root Port
+inbound path.
+
+Set the host bridge no_inc_mrrs flag before pci_host_probe() so the PCI
+core refuses any request to raise MRRS above the value a device already
+has. This covers every device below the Root Port, including those
+behind a switch, and it blocks both endpoint drivers calling
+pcie_set_readrq() and pci=pcie_bus_perf.
+
+no_inc_mrrs only refuses increases, though. MRRS resets to 512 bytes,
+but a device can be enumerated with a larger value after a warm reset
+that did not reach it, and the flag would then latch it there. Clamp
+those from a pci_fixup_header quirk, which runs from pci_device_add()
+before the device is registered and before a driver can bind and start
+DMA, and which also covers devices added later by hotplug. Lowering MRRS
+remains permitted while no_inc_mrrs is set.
+
+The quirk is registered for every device rather than for a device ID,
+because the Device ID is an IP parameter the designer can change. It
+matches the host bridge on this driver's pci_ops and on no_inc_mrrs
+instead: the flag is generic host bridge policy, so it identifies an
+MCDMA Root Port only together with the pci_ops match, and the quirk is
+a no-op on every other host bridge.
+
+Only the V3 Root Port uses the MCDMA hard IP. The V1 and V2 soft IP
+controllers have no such restriction, so leave them unclamped.
+
+Upstream-Status: Pending
+Signed-off-by: Mahesh Vaidya <mahesh.vaidya@altera.com>
+---
+ drivers/pci/controller/pcie-altera.c | 45 ++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
+index 9dcc55686277..0b6e140de8d7 100644
+--- a/drivers/pci/controller/pcie-altera.c
++++ b/drivers/pci/controller/pcie-altera.c
+@@ -93,6 +93,9 @@
+ #define AGLX_SYS_IRQ			PCI_NUM_INTX
+ #define AGLX_NUM_IRQS			(PCI_NUM_INTX + 1)
+ 
++/* MCDMA Root Port HAS: MRRS_SUPPORTED = 512 */
++#define AGLX_MAX_MRRS			512
++
+ #define AGLX_CFG_TARGET			GENMASK(13, 12)
+ #define AGLX_CFG_TARGET_TYPE0		0
+ #define AGLX_CFG_TARGET_TYPE1		1
+@@ -1063,6 +1066,37 @@ static const struct of_device_id altera_pcie_of_match[] = {
+ 	{},
+ };
+ 
++/*
++ * A device can be enumerated with MRRS above the limit after a warm reset that
++ * did not reach it, and no_inc_mrrs only refuses increases, so on its own it
++ * would latch such a device at its inherited value. Clamp it here instead:
++ * pci_fixup_header runs from pci_device_add(), before the device is registered
++ * and before a driver can bind and start DMA, and it also covers devices added
++ * later by hotplug.
++ */
++static void altera_pcie_limit_mrrs(struct pci_dev *dev)
++{
++	struct pci_host_bridge *bridge = pci_find_host_bridge(dev->bus);
++	int mrrs;
++
++	/*
++	 * The fixup is registered for every device, so match the host bridge
++	 * on this driver's pci_ops first. no_inc_mrrs is generic host bridge
++	 * policy and identifies an MCDMA Root Port only in combination with
++	 * that.
++	 */
++	if (bridge->ops != &altera_pcie_ops || !bridge->no_inc_mrrs)
++		return;
++
++	mrrs = pcie_get_readrq(dev);
++	if (mrrs > AGLX_MAX_MRRS) {
++		pci_info(dev, "limiting MRRS from %d to %d bytes\n",
++			 mrrs, AGLX_MAX_MRRS);
++		pcie_set_readrq(dev, AGLX_MAX_MRRS);
++	}
++}
++DECLARE_PCI_FIXUP_HEADER(PCI_ANY_ID, PCI_ANY_ID, altera_pcie_limit_mrrs);
++
+ static int altera_pcie_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1124,6 +1158,17 @@ static int altera_pcie_probe(struct platform_device *pdev)
+ 	bridge->ops = &altera_pcie_ops;
+ 	bridge->map_irq = altera_pcie_map_irq;
+ 
++	/*
++	 * The MCDMA Root Port hard IP is specified for a maximum MRRS of
++	 * 512 bytes. Refuse any request to raise MRRS above the value a
++	 * device already has, for every device below this Root Port, so
++	 * that endpoint drivers and pci=pcie_bus_perf cannot exceed it.
++	 * altera_pcie_limit_mrrs() keys off this flag to clamp any device
++	 * that is enumerated with a larger value.
++	 */
++	if (pcie->pcie_data->version == ALTERA_PCIE_V3)
++		bridge->no_inc_mrrs = 1;
++
+ 	ret = pci_host_probe(bridge);
+ 	if (ret)
+ 		goto err_teardown_irq;
+-- 
+2.34.1
+

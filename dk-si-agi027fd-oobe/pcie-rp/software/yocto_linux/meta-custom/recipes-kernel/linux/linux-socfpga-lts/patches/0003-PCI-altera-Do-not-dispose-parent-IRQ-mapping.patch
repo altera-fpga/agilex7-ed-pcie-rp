@@ -1,0 +1,40 @@
+From a5fd2f977b907d5ec070f0c2a6e17b1f3148f2b5 Mon Sep 17 00:00:00 2001
+From: Mahesh Vaidya <mahesh.vaidya@altera.com>
+Date: Tue, 28 Apr 2026 11:59:39 -0700
+Subject: [PATCH] PCI: altera: Do not dispose parent IRQ mapping
+
+altera_pcie_irq_teardown() calls irq_dispose_mapping() on pcie->irq.
+However, pcie->irq is the parent IRQ returned by platform_get_irq(), not
+an IRQ mapping created by the Altera INTx irq_domain.
+
+The Altera driver only installs a chained handler on the parent IRQ. It
+should detach that handler during teardown, but it should not dispose the
+parent IRQ mapping, which belongs to the parent interrupt controller's
+irq_domain.
+
+Drop irq_dispose_mapping(pcie->irq) from the teardown path.
+
+Upstream-Status: Backport [accepted in later Linux kernel]
+Fixes: ec15c4d0d5d2 ("PCI: altera: Allow building as module")
+Cc: stable@vger.kernel.org
+Reviewed-by: Subhransu S. Prusty <subhransu.sekhar.prusty@altera.com>
+Signed-off-by: Mahesh Vaidya <mahesh.vaidya@altera.com>
+---
+ drivers/pci/controller/pcie-altera.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
+index 3dbb7adc421c..3d3519b8d88f 100644
+--- a/drivers/pci/controller/pcie-altera.c
++++ b/drivers/pci/controller/pcie-altera.c
+@@ -868,7 +868,6 @@ static void altera_pcie_irq_teardown(struct altera_pcie *pcie)
+ {
+ 	irq_set_chained_handler_and_data(pcie->irq, NULL, NULL);
+ 	irq_domain_remove(pcie->irq_domain);
+-	irq_dispose_mapping(pcie->irq);
+ }
+ 
+ static int altera_pcie_parse_dt(struct altera_pcie *pcie)
+-- 
+2.34.1
+

@@ -1,52 +1,70 @@
-# Intel® Agilex™ 7 PCIe Root Port System Example Design
+# Agilex™ 7 PCIe Root Port System Example Design
 
-This system example design demonstrates a PCIe root port.The design package includes three distinct variants(P/F/R-tile), each tailored to different system requirements and use cases.These variants showcase various configuration features, enabling users to select the most appropriate design for their specific application. 
 ## Description
 
-The PCIe root port example design is based on the Intel® Agilex™ 7 Golden System Reference Design (GSRD) with the following components added:
+The Agilex™ 7 PCIe Root Port System Example Designs demonstrate a PCIe root port on Altera Agilex™ 7 FPGAs with HPS, Multichannel DMA (MCDMA) bridge, and related interconnect. The repository provides an I-Series F-Tile design and an M-Series R-Tile design.
 
-- Linux driver for PCIe root port IP that runs on HPS, enumerates the PCIe endpoint(s) and configures the PCIe root port Hard IP (HIP) through a dedicated reconfiguration AVMM interface.
-- The Multichannel DMA (MCDMA) bridge which interfaces between the SoC's AXI-MM interface on one end and the AXI-ST interface on the PCIe root port IP (carrying PCIe TLP traffic) on the other.
-- Various bridges, interconnects and adapters to handle clock crossing, data path and control path.
+The System Example Designs (SED) provide the necessary drivers and user applications to support the Linux stack running on the HPS.
 
-The system block diagram is shown below:
+The system's primary components include:
 
-![Intel® Agilex™ 7 Root Port block diagram](doc/RP_Block_Diagram.png)
+- The Hardware Reference Design
+- Hard Processor Subsystem (HPS)
+- Multichannel DMA (MCDMA) bridge
+- PCIe Root Port Hard IP (F-Tile or R-Tile)
+- Bridges, interconnects, and adapters for clock crossing, data path, and control path
+- Reference HPS software including:
+  - Arm Trusted Firmware
+  - U-Boot
+  - Linux Kernel
+  - Linux Drivers
+  - User Space Applications
 
-- The HPS-to-FPGA (H2F) lightweight AXI-4 interface on the HPS is used for accessing the control and status (CSR) interface of various blocks on the design. It connects to the reconfiguration interface on the PCIe root port HIP as well as the Configuration Slave (CS) interface on the MCDMA bridge.
-   - Configuration of the PCIe Endpoint (as part of Enumeration) is done via the CS interface. This interface supports only one outstanding config write/read transaction, as the number of PCIe tags allotted to this interface is only one (inside the MCDMA bridge).
-   - The connection to the HIP reconfiguration interface allows for updating the Type1 configuration space fields such as Primary, Secondary and Subordinate Bus numbers as well as Memory ranges to support different addressing schemes, i.e., Route by ID or Route by Address. PCIe root port configuration and status register accesses for IRQ and error status are also done via the same path.
-- Transfer of large memory transactions between the SoC's H2F AXI4 interface and the PCIe endpoint occurs via the Bursting AVMM Slave (BAS) AVMM interface on the MCDMA bridge. This interface theoretically supports 64 outstanding read transactions. PCIe completion re-ordering is handled inside the MCDMA bridge on the PCIe side, as the AVMM protocol does not support any ordering rules. AVMM address width is always set to 32/64 bit.
-- MSI/MSI-X interrupts from the PCIe endpoint are handled through the Bursting AVMM Master (BAM) interface on the bridge IP.
-- The bridge IP also supports memory requests (Read/Write) initiated by the endpoint (DMA bus mastering) targeting System Memory. These transactions are routed via the HPS's FPGA-to-HPS (F2H) AXI4 interface as shown in the diagram. In PCIe root port mode, this interface supports 32/64-bit addressing only.
+![Agilex™ 7 Root Port block diagram](doc/RP_Block_Diagram.png)
+
+Important features of the design include:
+
+- Linux driver for the PCIe root port IP that runs on the HPS, enumerates the PCIe endpoint(s), and configures the PCIe root port Hard IP through a dedicated reconfiguration interface
+- HPS-to-FPGA (H2F) lightweight AXI4 for CSR access to the HIP reconfiguration interface and the MCDMA Configuration Slave (CS) interface
+- Bursting AVMM Slave (BAS) path for large memory transactions between the SoC and the PCIe endpoint
+- MSI/MSI-X interrupt handling via the Bursting AVMM Master (BAM) interface
+- Endpoint-initiated memory requests (DMA bus mastering) targeting system memory via the HPS FPGA-to-HPS (F2H) AXI4 interface
+
+The System Example Design supports the following design configurations on Altera Development Kits.
+
+| SL No | Design configuration                         | Link / tile | Development Kit Supported                                                                                                                                         | Device Family | Device Part        | Documentation                                  |
+| ----- | -------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------ | ---------------------------------------------- |
+| 1.    | PCIe Root Port (I-Series F-Tile)             | F-Tile 2x4  | [DK-SI-AGI027FD](https://www.altera.com/products/development-boards-and-kits.html)                                                                                | Agilex™ 7     | AGIB027R31B1E1VC   | [Build README](./dk-si-agi027fd-oobe/pcie-rp)  |
+| 2.    | PCIe Root Port (M-Series R-Tile, HBM2e kit) | R-Tile 4x4  | [DK-DEV-AGM039FES](https://www.altera.com/products/development-boards-and-kits.html)                                                                              | Agilex™ 7     | AGMF039R47A1E2VR0  | [Build README](./dk-dev-agm039fes-oobe/pcie-rp) |
 
 ## Repository Structure
 
-Directory Structure used in this example design:
+Directory Structure Used in This Example Design:
 
- ```bash
-    |--- doc
-    |--- src
-    |   |--- hw
-	|   |  |--- ag7f014_devkit (Ptile-4x4)
-	|   |  |--- ag7m039_devkit (Rtile-4x4)
-	
-    |   |--- sw
-        |   |  |--- agilex7_dk_si_agf014eb-gsrd-build.sh   (Ptile-4x4)
-        |   |  |--- agilex7_dk_dev_agm039fes-rped-build.sh (Rtile-4x4)
- ```
+```bash
+agilex7-ed-pcie-rp
+|--- doc/
+|--- dk-si-agi027fd-oobe/
+|   |--- pcie-rp/               # I-Series F-Tile PCIe Root Port
+|--- dk-dev-agm039fes-oobe/
+|   |--- pcie-rp/               # M-Series R-Tile PCIe Root Port
+```
 
-## Project Details
-
-- **Family**: Intel® Agilex™ 7
-- **Quartus Version**: 26.1
-
+Each design directory contains `src/`, `syn/`, and `software/` (see the design README for details).
 
 ## Getting Started
 
-Follow the steps below to build the design:
+Building the design is easy with the scripts provided in the repo. Clone the repository to get the source files.
 
-- [Building the P-Tile hardware](src/hw/ag7f014_devkit/README.md)
-- [Building the R-Tile hardware](src/hw/ag7m039_devkit/README.md)
+```bash
+git clone https://github.com/altera-fpga/agilex7-ed-pcie-rp.git
+cd agilex7-ed-pcie-rp
+git checkout <Release Tag>
+```
 
-- [Building the P-Tile F-Tile R-Tile software](src/sw/README.md)
+Follow the links below to compile, build, and test the design solution for the intended configuration.
+
+- [Building PCIe Root Port on DK-SI-AGI027FD (I-Series F-Tile)](./dk-si-agi027fd-oobe/pcie-rp)
+- [Building PCIe Root Port on DK-DEV-AGM039FES (M-Series R-Tile)](./dk-dev-agm039fes-oobe/pcie-rp)
+
+Run `make help` from a design directory for the full target list for that variant.

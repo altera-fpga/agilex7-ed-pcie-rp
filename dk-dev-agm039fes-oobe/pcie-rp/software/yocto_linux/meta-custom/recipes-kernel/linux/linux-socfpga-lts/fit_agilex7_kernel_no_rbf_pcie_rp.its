@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2026 Altera Corporation
+ *
+ * meta-altera-bsp fit_agilex7_kernel_no_rbf.its plus board-2, which the
+ * PCIe Root Port regression boots.
+ */
+
+/dts-v1/;
+
+/ {
+	description = "FIT image with kernel and DTB";
+	#address-cells = <1>;
+
+	images {
+		kernel {
+			description = "Linux Kernel";
+			data = /incbin/("./Image.lzma");
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "lzma";
+			load = <0x6000000>;
+			entry = <0x6000000>;
+			hash {
+				algo = "sha256";
+			};
+		};
+
+		fdt-0 {
+			description = "socfpga_socdk_dt";
+			data = /incbin/("./SOCFPGA_SOCDK_DTB_FILE");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "sha256";
+			};
+		};
+	};
+
+	configurations {
+		default = "board-0";
+
+		board-0 {
+			description = "board_0";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt";
+			};
+		};
+
+		board-2 {
+			description = "board_2";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt";
+			};
+		};
+	};
+};

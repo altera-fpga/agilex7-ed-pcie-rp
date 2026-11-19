@@ -1,0 +1,35 @@
+From 9d9afa74486ef8c77d5d80d0b8da112d3cf849b8 Mon Sep 17 00:00:00 2001
+From: "Vaidya, Mahesh R" <mahesh.r.vaidya@intel.com>
+Date: Fri, 29 Aug 2025 03:07:53 -0700
+Subject: [PATCH] Reserve RAM area required by pcie rootport on FPGA
+
+Reserve 0x1000 size space in system memory at 0x7EA00000, required
+by the rootport design to handle MSI dummy write requests sent by
+MSI ordering module.
+
+Upstream-Status: Pending
+Signed-off-by: Vaidya, Mahesh R <mahesh.r.vaidya@intel.com>
+---
+ arch/arm64/boot/dts/intel/socfpga_agilex.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/intel/socfpga_agilex.dtsi b/arch/arm64/boot/dts/intel/socfpga_agilex.dtsi
+index aa8bba2dbf99..c7784728dcb6 100644
+--- a/arch/arm64/boot/dts/intel/socfpga_agilex.dtsi
++++ b/arch/arm64/boot/dts/intel/socfpga_agilex.dtsi
+@@ -25,6 +25,12 @@ service_reserved: svcbuffer@0 {
+ 			alignment = <0x1000>;
+ 			no-map;
+ 		};
++
++		fpga_rootport_reserved: fpga_rootport_reserved@7EA00000 {
++			reg = <0x0 0x7EA00000 0x0 0x1000>;
++			alignment = <0x1000>;
++			no-map;
++		};
+ 	};
+ 
+ 	cpus {
+-- 
+2.34.1
+

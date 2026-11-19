@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2026 Altera Corporation
+ *
+ * meta-altera-bsp fit_agilex7_kernel.its plus the GSRD 1.0 PCIe Root Port
+ * configurations: board-2 (PCIe DTB, core RBF loaded separately, used by
+ * the PCIe RP regression) and board-4 (PCIe DTB + core RBF).
+ */
+
+/dts-v1/;
+
+/ {
+	description = "FIT image with kernel, DTB and FPGA core binary";
+	#address-cells = <1>;
+
+	images {
+		kernel {
+			description = "Linux Kernel";
+			data = /incbin/("./Image.lzma");
+			type = "kernel";
+			arch = "arm64";
+			os = "linux";
+			compression = "lzma";
+			load = <0x6000000>;
+			entry = <0x6000000>;
+			hash {
+				algo = "sha256";
+			};
+		};
+
+		fdt-0 {
+			description = "socfpga_socdk_combined";
+			data = /incbin/("./SOCFPGA_SOCDK_DTB_FILE");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "sha256";
+			};
+		};
+
+		fdt-1 {
+			description = "socfpga_socdk_vanilla";
+			data = /incbin/("./SOCFPGA_VANILLA_DTB_FILE");
+			type = "flat_dt";
+			arch = "arm64";
+			compression = "none";
+			hash {
+				algo = "sha256";
+			};
+		};
+
+		fpga-0 {
+			description = "FPGA bitstream for GHRD";
+			data = /incbin/("./top.core.rbf");
+			type = "fpga";
+			arch = "arm64";
+			compression = "none";
+			load = <0xA000000>;
+			hash {
+				algo = "sha256";
+			};
+		};
+	};
+
+	configurations {
+		default = "board-0";
+
+		board-0 {
+			description = "board_0";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			fpga = "fpga-0";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt", "fpga";
+			};
+		};
+
+		board-1 {
+			description = "board_1";
+			kernel = "kernel";
+			fdt = "fdt-1";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt";
+			};
+		};
+
+		board-2 {
+			description = "board_2";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt";
+			};
+		};
+
+		board-4 {
+			description = "board_4";
+			kernel = "kernel";
+			fdt = "fdt-0";
+			fpga = "fpga-0";
+			signature {
+				algo = "sha256,rsa2048";
+				key-name-hint = "dev";
+				sign-images = "kernel", "fdt", "fpga";
+			};
+		};
+	};
+};
