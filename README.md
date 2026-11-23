@@ -34,8 +34,8 @@ The System Example Design supports the following design configurations on Altera
 
 | SL No | Design configuration                         | Link / tile | Development Kit Supported                                                                                                                                         | Device Family | Device Part        | Documentation                                  |
 | ----- | -------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------------ | ---------------------------------------------- |
-| 1.    | PCIe Root Port (I-Series F-Tile)             | F-Tile 2x4  | [DK-SI-AGI027FD](https://www.altera.com/products/development-boards-and-kits.html)                                                                                | Agilex™ 7     | AGIB027R31B1E1VC   | [Build README](./dk-si-agi027fd-oobe/pcie-rp)  |
-| 2.    | PCIe Root Port (M-Series R-Tile, HBM2e kit) | R-Tile 4x4  | [DK-DEV-AGM039FES](https://www.altera.com/products/development-boards-and-kits.html)                                                                              | Agilex™ 7     | AGMF039R47A1E2VR0  | [Build README](./dk-dev-agm039fes-oobe/pcie-rp) |
+| 1.    | PCIe Root Port (I-Series F-Tile)             | F-Tile 2x4  | [DK-SI-AGI027FD](https://www.altera.com/products/devkit/po-3248/agilex-7-fpga-i-series-transceiver-soc-development-kit-4x-f-tile) | Agilex™ 7     | AGIB027R31B1E1VC   | [Build README](./dk-si-agi027fd-oobe/pcie-rp)  |
+| 2.    | PCIe Root Port (M-Series R-Tile, HBM2e kit) | R-Tile 4x4  | [DK-DEV-AGM039FES](https://www.altera.com/products/devkit/po-3016/agilex-7-fpga-m-series-development-kit-hbm2e-edition-3x-f-tile-1x-r-tile-es) | Agilex™ 7     | AGMF039R47A1E2VR0  | [Build README](./dk-dev-agm039fes-oobe/pcie-rp) |
 
 ## Repository Structure
 
