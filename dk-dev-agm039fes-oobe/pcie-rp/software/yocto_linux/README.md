@@ -1,35 +1,68 @@
-# Agilex 7 PCIe Root Port (M-Series R-Tile) - Yocto Linux (GSRD 2.0)
+# Overview of yocto_linux
 
-This folder builds the Yocto Linux software for the `dk-dev-agm039fes-oobe` PCIe Root Port
-example design using the KAS based GSRD 2.0 flow. It is derived from the
-Agilex 7 HPS baseline GSRD 2.0 `software/yocto_linux` plus the PCIe Root Port
-customizations from the GSRD 1.0 `meta-altera-pcie-rp` layer:
+Yocto / KAS BSP for the Agilex™ 7 PCIe Root Port System Example Design (M-Series R-Tile) on the
+Agilex 7 FPGA M-Series Development Kit - HBM2e Edition (DK-DEV-AGM039FES), built with the KAS based GSRD 2.0 flow.
 
-- Linux device tree: in-kernel `socfpga_agilex7m_socdk_pcie_root_port.dts` (`CUSTOM_LINUX_DTS_FILE` in `kas/machine.yml`)
-- Kernel patches (`meta-custom/recipes-kernel/linux/linux-socfpga-lts/patches/`):
-  reserved RAM for the root port, PCIe legacy interrupt node, Legacy INTx driver support,
-  Root Port MPS configuration
-- Kernel config: NVMe (`nvme.scc`)
-- Versions, same as Agilex 7 PCIe Root Port GSRD 1.0: Linux `socfpga-6.18.2-lts`, U-Boot `socfpga_v2026.01`, Arm Trusted Firmware `socfpga_v2.14.0`
-- Rootfs packages: `nvme-cli`, `dtc`, `fio`, `pciutils`
-- `kernel.itb` FIT configurations: `board-0` (PCIe DTB + core RBF), `board-1` (vanilla DTB),
-  `board-2` (PCIe DTB, core RBF loaded separately), `board-4` (PCIe DTB + core RBF)
+The Yocto Linux framework enables users to customize the Board Support Package (BSP)
+to match the specific hardware design and evaluate the system on hardware.
+
+The base layer for yocto_linux is meta-altera-fpga/meta-altera-bsp. Yocto can be configurable/build
+using kas menu and bitbake commands.
+
+Hardware compile (`src/` / `syn/`) and programming-file steps:
+[../../README.md](../../README.md) and [../../syn/README.md](../../syn/README.md).
 
 Build (SD card):
 
 ```bash
-./build.sh <path>/<revision>.core.rbf sd
+./build.sh <path>/baseline.core.rbf sd
 ```
 
----
+## Design details
 
-# Overview of yocto_linux
-The Yocto Linux framework enables users to customize the Board Support Package (BSP)
-to match the specific hardware design and evaluate the system on either a virtual
-platform (Simics) or real hardware.
+| Item | Value |
+|------|-------|
+| Family | Agilex 7 |
+| Development kit | Agilex 7 FPGA M-Series Development Kit - HBM2e Edition (DK-DEV-AGM039FES) |
+| Device part | AGMF039R47A1E2VR0 |
+| Quartus Prime Pro | 26.3 |
+| PCIe tile | R-Tile, Hard IP mode `Gen5 4x4` (32.0 Gbps lane rate) |
+| Subsystem | PCIe root port + HPS + Multichannel DMA (MCDMA) bridge |
+| `MACHINE` | `agilex7m` (`kas/machine.yml`) |
+| Hardware revision | `baseline` (`REVISION_NAMES` in `../../project_config.mk`) |
+| Make stem | `dk-dev-agm039fes-oobe-baseline-pcie-rp` |
+| Deploy directory | `build/tmp/deploy/images/agilex7m/` |
 
-The base layer for yocto_linux is meta-altera-fpga/meta-altera-bsp. Yocto can be configurable/build
-using kas menu and bitbake commands.
+## Component versions
+
+Set in `kas/bsp.yml`; all three are fetched from the public `altera-fpga` repositories with
+`SRCREV = "${AUTOREV}"`, i.e. the tip of the branch at build time.
+
+| Component | Branch | Recipe version |
+|-----------|--------|----------------|
+| Linux | `socfpga-6.18.37-lts` | `linux-socfpga-lts` 6.18.37 |
+| U-Boot | `socfpga_v2026.07` | `u-boot-socfpga` v2026.07 |
+| Arm Trusted Firmware | `socfpga_v2.15.0` | `arm-trusted-firmware` v2.15 (BL31 reports v2.15.1) |
+
+## What this BSP adds on top of the Agilex 7 HPS baseline
+
+- **Linux device tree** - in-kernel `socfpga_agilex7m_socdk_pcie_root_port.dts`
+  (`CUSTOM_LINUX_DTS_FILE` in `kas/machine.yml`; `LINUX_DTS_FILE` stays `socfpga_agilex7m_socdk.dts`)
+- **U-Boot** - `UBOOT_DEFCONFIG = socfpga_agilex7m_defconfig`, `UBOOT_DEVICE_TREE = socfpga_agilex_socdk.dtb`
+- **Kernel patches** (`meta-custom/recipes-kernel/linux/linux-socfpga-lts/patches/`):
+
+  | Patch | Purpose |
+  |-------|---------|
+  | `0001-Reserve-RAM-area-required-by-pcie-rootport-on-FPGA` | Reserved RAM for the root port |
+  | `0002-DTS-Add-node-to-support-pcie-legacy-interrupts` | Legacy interrupt DT node |
+  | `0003-PCI-altera-Do-not-dispose-parent-IRQ-mapping` | IRQ mapping leak fix |
+  | `0004-PCI-altera-Fix-resource-leaks-on-probe-failure` | Probe-failure resource leak fix |
+  | `0005-Add-PCIe-RP-driver-support-for-Legacy-INTx-interrupts` | Legacy INTx driver support |
+  | `0006-PCI-Configure-Root-Port-MPS-during-host-probing` | Root Port MPS configuration |
+  | `0007-PCI-altera-Limit-MRRS-to-512-bytes-on-MCDMA-Root-Por` | Clamp MRRS to 512 bytes (MCDMA bridge limit) |
+
+- **Kernel config**: NVMe (`nvme.scc`)
+- **Rootfs packages**: `nvme-cli`, `dtc`, `fio`, `pciutils`
 
 Following is the top level view of the yocto_linux framework.
 
@@ -72,6 +105,9 @@ Following is the top level view of the yocto_linux framework.
 │           └── pio-interrupt
 ├── qspi_boot_src.yml
 ├── scripts
+├── build.sh
+├── kas_build.sh
+├── clean_build.sh
 └── README.md
 
 ```
@@ -153,14 +189,43 @@ Refer to ```scripts/README.md``` for detailed instructions on creating bootable 
 
 ## Prepare FPGA Bitstream (RBF)
 
-Before building Yocto, copy the FPGA bitstream generated by the GHRD build into the Yocto build tree:
+The Yocto build needs the FPGA core bitstream before it starts. `kas.yml` sets:
 
-```bash
-# Example: Copy RBF from GHRD output to Yocto
-cp ../../output_files/ghrd.rbf meta-custom/recipes-fpga/fpga-bitstream/files/baseline.core.rbf
+```
+FPGA_ENABLE_CORE_PGM ?= "1"
+FPGA_RBF_FILE        ?= "baseline.core.rbf"
 ```
 
-**Note:** The RBF filename must match the `FPGA_RBF_FILE` variable in `kas.yml`. Adjust the source and destination paths based on your design name and directory structure.
+With core programming enabled, `fpga-bitstream.bb` fetches
+`meta-custom/recipes-fpga/fpga-bitstream/files/${FPGA_RBF_FILE}`. **The bitstream is not
+stored in this repository** - `*.rbf` and `*.sof` are listed in `.gitignore` and only a
+`.dummy` placeholder is tracked. A fresh clone therefore fails at `do_fetch` until you
+supply the file.
+
+**Preferred - top-level Make** builds the hardware, generates the core RBF from the SOF and
+copies it into place automatically:
+
+```bash
+# from dk-dev-agm039fes-oobe/pcie-rp/
+make dk-dev-agm039fes-oobe-baseline-pcie-rp-all
+```
+
+`dk-dev-agm039fes-oobe-baseline-pcie-rp-build` on its own also produces
+`output_files/baseline.core.rbf`: `project_config.mk` makes the core RBF a prerequisite of the
+hardware build target on Agilex 7.
+
+**Manual copy**, if you already have a core RBF:
+
+```bash
+# From software/yocto_linux/
+cp <path>/baseline.core.rbf meta-custom/recipes-fpga/fpga-bitstream/files/baseline.core.rbf
+```
+
+The filename must match `FPGA_RBF_FILE`. If you rename the hardware revision, change both.
+
+Setting `FPGA_ENABLE_CORE_PGM = "0"` builds a `kernel.itb` with **no** bitstream inside and
+selects the `fit_agilex7_kernel_no_rbf_pcie_rp.its` FIT, which provides only `board-0` and
+`board-2`. Booting `board-4` then fails because that configuration does not exist.
 
 ## Build environment
 
@@ -169,6 +234,12 @@ cp ../../output_files/ghrd.rbf meta-custom/recipes-fpga/fpga-bitstream/files/bas
 - The system shell must use bash instead of dash. On Ubuntu 22.04, run:
   ```bash
   sudo ln -sf /bin/bash /bin/sh
+  ```
+- Network access to the public `altera-fpga` repositories (`meta-altera-fpga`, `linux-socfpga`,
+  `u-boot-socfpga`, `arm-trusted-firmware`). No credentials are required.
+  KAS runs git with a temporary `HOME`, so pass your git configuration explicitly:
+  ```bash
+  export GITCONFIG_FILE=$HOME/.gitconfig
   ```
 
 Install the following host packages and tools required for yocto build.
@@ -201,13 +272,33 @@ From this directory, after the hardware build has written `output_files/baseline
 
 `build.sh` copies that file to `meta-custom/recipes-fpga/fpga-bitstream/files/baseline.core.rbf` (the name set by `FPGA_RBF_FILE` in `kas.yml`) and builds `console-image-minimal` and `gsrd-console-image`.
 
-SD card images, `kernel.itb`, and `u-boot-spl-dtb.hex` are written to `build/tmp/deploy/images/agilex7m/`. `kernel.itb` configurations are `board-0` (PCIe DTB + core RBF), `board-1` (board DTB), `board-2` (PCIe DTB, core RBF loaded separately; this is what the regression boots), and `board-4` (PCIe DTB + core RBF).
+SD card images, `kernel.itb`, and `u-boot-spl-dtb.hex` are written to
+`build/tmp/deploy/images/agilex7m/`. The FIT configurations inside `kernel.itb` are listed under
+[Binaries](#binaries) below.
 
-`qspi` is also accepted: `./build.sh <core.rbf> qspi` builds `console-image-minimal` only.
+`build.sh` accepts four boot sources; they differ in the images they build:
 
-### Build with the KAS menu
+| `BOOT_SOURCE` | kas configuration | Targets built |
+|---------------|-------------------|---------------|
+| `sd`, `emmc` | `kas.yml` | `console-image-minimal` and `gsrd-console-image` |
+| `nand` | `kas.yml` | `console-image-minimal` |
+| `qspi` | `kas.yml:qspi_boot_src.yml` | `console-image-minimal` |
 
 ### Default build
+
+`kas.yml` declares the default targets, so a bare `kas build` produces the same images as
+`build.sh`:
+
+```yaml
+target:
+  - console-image-minimal
+  - gsrd-console-image
+```
+
+```bash
+$ kas build kas.yml
+```
+
 - **Using Yocto GUI**
 ```bash
 # Run kas menu command and Build
@@ -270,34 +361,52 @@ After the build, the generated binaries can be found in ```build/tmp/deploy/imag
 |console-image-minimal-agilex7m.rootfs.wic              |SD/MMC bootable disk image.                                            |
 |gsrd-console-image-agilex7m.rootfs.wic                 |SD/MMC bootable disk image.                                            |
 
-### How to simulate binaries on Simics
+**`kernel.itb` configurations**
 
-Navigate to the directory ``/<workspace>/applications.fpga.soc.agilex7m-ed-ghrd/<devkit>/<design>/simics/linux/``
+`kernel.itb` is a signed FIT built from
+`meta-custom/recipes-kernel/linux/linux-socfpga-lts/fit_agilex7_kernel_pcie_rp.its`.
+Boot a specific configuration from U-Boot with `bootm ${loadaddr}#board-2`.
 
-Run the simulation with the command
-``
-$ ./runsimics.sh <Boot Mode> <Path of Binaries>
-$ run
-``
+| Configuration | DTB | FPGA core RBF | Use |
+|---------------|-----|---------------|-----|
+| `board-0` (default) | PCIe Root Port | yes | SD boot default |
+| `board-1` | Vanilla board DTB (`LINUX_DTS_FILE`) | no | Boot without the PCIe Root Port |
+| `board-2` | PCIe Root Port | no | Core RBF already loaded via JTAG or U-Boot |
+| `board-4` | PCIe Root Port | yes | GSRD 1.0 compatible name |
 
-**Boot mode options**
-- SD/MMC boot source - sdmmc
-    - The runsimics script uses the WIC image generated by Yocto to simulate SD/MMC boot in Simics.
-- QSPI boot source - qspi
-    - The runsimics script uses existing binaries to generate a QSPI JIC image and simulates QSPI boot in Simics.
+When `FPGA_ENABLE_CORE_PGM = "0"`, `fit_agilex7_kernel_no_rbf_pcie_rp.its` is used instead and
+only `board-0` and `board-2` exist.
 
-**Example Usage**
-```bash
-$ ./runsimics.sh sdmmc /<workspace>/applications.fpga.soc.agilex7m-ed-ghrd/<devkit>/<design>/software/yocto_linux/build/tmp/deploy/images/<agilex7m>/
-$ run
-```
+### Top-level Make targets
 
-[or]
+The design root (`dk-dev-agm039fes-oobe/pcie-rp/`) drives hardware and software together.
+Run `make help` there for the full list.
 
 ```bash
-$ ./runsimics.sh sdmmc ../../software/yocto_linux/build/tmp/deploy/images/agilex7m/
-$ run
+# Hardware + core RBF + Yocto SD software
+make dk-dev-agm039fes-oobe-baseline-pcie-rp-all
+# Hardware only (also writes output_files/baseline.core.rbf)
+make dk-dev-agm039fes-oobe-baseline-pcie-rp-build
+# Software only (needs the SOF from the hardware build)
+make dk-dev-agm039fes-oobe-baseline-pcie-rp-software-yocto_linux_sd-build-sw
+# Install SOF / reports / software artifacts under install/
+make dk-dev-agm039fes-oobe-baseline-pcie-rp-install
 ```
+
+### Programming files with FSBL (quartus_pfg)
+
+`u-boot-spl-dtb.hex` is produced by this Yocto build under
+`build/tmp/deploy/images/agilex7m/`. After a build:
+
+```bash
+# From dk-dev-agm039fes-oobe/pcie-rp/syn/
+quartus_pfg -c -o hps=on \
+  -o hps_path=../software/yocto_linux/build/tmp/deploy/images/agilex7m/u-boot-spl-dtb.hex \
+  output_files/top.sof \
+  output_files/top.rbf
+```
+
+Hardware compile details: [../../README.md](../../README.md).
 
 ### Steps to create QSPI bootable image (JIC)
 Follow steps mentioned in ```scripts/README.md``` file.
@@ -314,15 +423,16 @@ This mechanism enables maintaining a stable base configuration while applying ta
 
 Before building, verify final configuration after merge:
 ```bash
-kas dump kas.yml:bsp.yml
+kas dump kas.yml:qspi_boot_src.yml
 ```
 
 To build the project:
 ```bash
-kas build kas.yml:bsp.yml
+kas build kas.yml:qspi_boot_src.yml
 ```
 
-* `kas.yml` is the base configuration file.
+* `kas.yml` is the base configuration file; it already includes `kas/machine.yml` and `kas/bsp.yml`.
+* `qspi_boot_src.yml` contains override settings for QSPI boot.
 * `kas/bsp.yml` contains the BSP pins (ATF/U-Boot/Linux branches and versions).
 * `kas/machine.yml` contains machine and device-tree settings (e.g. `MACHINE`, `LINUX_DTS_FILE`, `CUSTOM_LINUX_DTS_FILE`).
 
@@ -332,7 +442,7 @@ This layered approach promotes a clean and maintainable configuration strategy, 
 
 ```yaml
 header:
-  version: 11
+  version: 17
   includes:
     - kas/machine.yml
     - kas/bsp.yml
@@ -373,38 +483,8 @@ $ bitbake -c build arm-trusted-firmware
 $ bitbake -c build device-tree
 ```
 
-### eSDK build
-
-The extensible SDK (eSDK) provides a cross-development toolchain and libraries tailored to the contents of a specific image.
-
-**Prerequisites**
-
-Before building the eSDK, modify `kas.yml` to add the following configurations under `local_conf_header`:
-
-```yaml
-  yocto-config: |
-    CONF_VERSION = "2"
-
-  llvm-provider: |
-    PREFERRED_PROVIDER_llvm-native = "clang-native"
-    PROVIDES:pn-clang-native = "llvm-native"
-```
-
-**Build eSDK**
-
-After modifying `kas.yml`, build the extensible SDK:
-
-```bash
-# Set bitbake build environment
-$ kas shell kas.yml
-
-# Build eSDK for console-image-minimal and gsrd-console-image
-$ bitbake console-image-minimal gsrd-console-image -c populate_sdk_ext
-```
-
-The generated eSDK installer will be located in `build/tmp/deploy/sdk/`.
-
 ### Documentation
+- [PCIe Root Port User Guide: Agilex 7 M-Series HBM2e Development Kit](https://altera-fpga.github.io/latest/embedded-designs/agilex-7/m-series/pcie_rp/ug-pcie_rp-agx7m-hbm2e/)
 - [KAS] https://kas.readthedocs.io/en/latest/
 - [YOCTO] https://docs.yoctoproject.org/
 

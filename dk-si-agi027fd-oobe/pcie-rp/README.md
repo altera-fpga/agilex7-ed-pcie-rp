@@ -10,15 +10,18 @@ The Agilex™ 7 PCIe Root Port System Example Design for the I-Series F-Tile kit
 
 - **Family**: Agilex 7
 - **Quartus Version**: 26.3
-- **Patch Number**: Unknown
 - **Development Kit**: [Agilex 7 FPGA I-Series Transceiver-SoC Development Kit 4xF-Tile DK-SI-AGI027FD](https://www.altera.com/products/devkit/po-3248/agilex-7-fpga-i-series-transceiver-soc-development-kit-4x-f-tile)
 - **Device Part**: AGIB027R31B1E1VC
 - **Category**: HPS, PCIe
+- **Source**: Quartus Prime Pro
 - **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp
 - **Design Package**: dk-si-agi027fd-oobe-pcie-rp.zip
+- **Documentations**: https://altera-fpga.github.io/latest/embedded-designs/agilex-7/i-series/pcie_rp/ug-pcie_rp-agx7i-soc/
 
 ## Documentations
 
+- **Title**: PCIe Root Port User Guide: Agilex 7 I-Series Transceiver-SoC Development Kit
+  **URL**: https://altera-fpga.github.io/latest/embedded-designs/agilex-7/i-series/pcie_rp/ug-pcie_rp-agx7i-soc/
 - **Title**: Design and Build Readme  
   **URL**: [README.md](./README.md)
 - **Title**: Hardware Build (syn)  
