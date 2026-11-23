@@ -1,6 +1,6 @@
 # Agilex™ 7 PCIe Root Port System Example Design (M-Series R-Tile)
 
-The Agilex™ 7 PCIe Root Port System Example Design targets the Agilex™ 7 FPGA M-Series Development Kit - HBM2e Edition (DK-DEV-AGM039FES) with a PCIe R-Tile root port, HPS, and Multichannel DMA (MCDMA) bridge.
+The Agilex™ 7 PCIe Root Port System Example Design targets the [Agilex™ 7 FPGA M-Series Development Kit - HBM2e Edition (DK-DEV-AGM039FES)](https://www.altera.com/products/devkit/po-3016/agilex-7-fpga-m-series-development-kit-hbm2e-edition-3x-f-tile-1x-r-tile-es) with a PCIe R-Tile root port, HPS, and Multichannel DMA (MCDMA) bridge.
 
 ## Description
 
@@ -11,7 +11,7 @@ The Agilex™ 7 PCIe Root Port System Example Design for the M-Series R-Tile kit
 - **Family**: Agilex 7
 - **Quartus Version**: 26.3
 - **Patch Number**: Unknown
-- **Development Kit**: Agilex 7 FPGA M-Series Development Kit - HBM2e Edition 3x F-Tile and 1x R-Tile DK-DEV-AGM039EA
+- **Development Kit**: [Agilex 7 FPGA M-Series Development Kit - HBM2e Edition 3x F-Tile and 1x R-Tile DK-DEV-AGM039FES](https://www.altera.com/products/devkit/po-3016/agilex-7-fpga-m-series-development-kit-hbm2e-edition-3x-f-tile-1x-r-tile-es)
 - **Device Part**: AGMF039R47A1E2VR0
 - **Category**: HPS, PCIe
 - **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp
@@ -20,11 +20,11 @@ The Agilex™ 7 PCIe Root Port System Example Design for the M-Series R-Tile kit
 ## Documentations
 
 - **Title**: Design and Build Readme  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-dev-agm039fes-oobe/pcie-rp/README.md
+  **URL**: [README.md](./README.md)
 - **Title**: Hardware Build (syn)  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-dev-agm039fes-oobe/pcie-rp/syn/README.md
+  **URL**: [syn/README.md](./syn/README.md)
 - **Title**: Software / Yocto Build Readme  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-dev-agm039fes-oobe/pcie-rp/software/yocto_linux/README.md
+  **URL**: [software/yocto_linux/README.md](./software/yocto_linux/README.md)
 
 ## Dependency
 

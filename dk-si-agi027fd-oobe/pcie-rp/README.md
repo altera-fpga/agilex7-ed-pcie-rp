@@ -1,6 +1,6 @@
 # Agilex™ 7 PCIe Root Port System Example Design (I-Series F-Tile)
 
-The Agilex™ 7 PCIe Root Port System Example Design targets the Agilex™ 7 FPGA I-Series Transceiver-SoC Development Kit (DK-SI-AGI027FD) with a PCIe F-Tile root port, HPS, and Multichannel DMA (MCDMA) bridge.
+The Agilex™ 7 PCIe Root Port System Example Design targets the [Agilex™ 7 FPGA I-Series Transceiver-SoC Development Kit (DK-SI-AGI027FD)](https://www.altera.com/products/devkit/po-3248/agilex-7-fpga-i-series-transceiver-soc-development-kit-4x-f-tile) with a PCIe F-Tile root port, HPS, and Multichannel DMA (MCDMA) bridge.
 
 ## Description
 
@@ -11,7 +11,7 @@ The Agilex™ 7 PCIe Root Port System Example Design for the I-Series F-Tile kit
 - **Family**: Agilex 7
 - **Quartus Version**: 26.3
 - **Patch Number**: Unknown
-- **Development Kit**: Agilex 7 FPGA I-Series Transceiver-SoC Development Kit 4xF-Tile DK-SI-AGI027FD
+- **Development Kit**: [Agilex 7 FPGA I-Series Transceiver-SoC Development Kit 4xF-Tile DK-SI-AGI027FD](https://www.altera.com/products/devkit/po-3248/agilex-7-fpga-i-series-transceiver-soc-development-kit-4x-f-tile)
 - **Device Part**: AGIB027R31B1E1VC
 - **Category**: HPS, PCIe
 - **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp
@@ -20,11 +20,11 @@ The Agilex™ 7 PCIe Root Port System Example Design for the I-Series F-Tile kit
 ## Documentations
 
 - **Title**: Design and Build Readme  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-si-agi027fd-oobe/pcie-rp/README.md
+  **URL**: [README.md](./README.md)
 - **Title**: Hardware Build (syn)  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-si-agi027fd-oobe/pcie-rp/syn/README.md
+  **URL**: [syn/README.md](./syn/README.md)
 - **Title**: Software / Yocto Build Readme  
-  **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp/blob/main/dk-si-agi027fd-oobe/pcie-rp/software/yocto_linux/README.md
+  **URL**: [software/yocto_linux/README.md](./software/yocto_linux/README.md)
 
 ## Dependency
 
