@@ -11,7 +11,7 @@ The Agilex™ 7 PCIe Root Port System Example Design for the M-Series R-Tile kit
 - **Family**: Agilex 7
 - **Quartus Version**: 26.3
 - **Patch Number**: Unknown
-- **Development Kit**: [Agilex 7 FPGA M-Series Development Kit - HBM2e Edition 3x F-Tile and 1x R-Tile DK-DEV-AGM039EA](https://www.altera.com/products/devkit/po-3207/agilex-7-fpga-m-series-development-kit-hbm2e-edition-3x-f-tile-1x-r-tile)
+- **Development Kit**: [Agilex 7 FPGA M-Series Development Kit - HBM2e Edition 3x F-Tile and 1x R-Tile DK-DEV-AGM039FES](https://www.altera.com/products/devkit/po-3016/agilex-7-fpga-m-series-development-kit-hbm2e-edition-3x-f-tile-1x-r-tile-es)
 - **Device Part**: AGMF039R47A1E2VR0
 - **Category**: HPS, PCIe
 - **URL**: https://github.com/altera-fpga/agilex7-ed-pcie-rp
